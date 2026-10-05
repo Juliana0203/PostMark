@@ -1,5 +1,4 @@
 ﻿import { useEffect } from 'react';
-import * as Haptics from 'expo-haptics';
 import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
@@ -7,6 +6,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
+import { playStampThud } from '../../services/soundService';
 import { VintagePostmark } from './VintagePostmark';
 
 type PostmarkProps = Parameters<typeof VintagePostmark>[0];
@@ -17,7 +17,6 @@ interface Props extends PostmarkProps {
 }
 
 const SPRING = { damping: 10, mass: 0.8, stiffness: 200 };
-const hit = () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy).catch(() => undefined);
 
 export function AnimatedInkStamp({ playKey, ...postmark }: Props) {
   const scale = useSharedValue(1.6);
@@ -42,7 +41,7 @@ export function AnimatedInkStamp({ playKey, ...postmark }: Props) {
     (touched) => {
       if (touched) {
         landed.value = true;
-        scheduleOnRN(hit);
+        scheduleOnRN(playStampThud);
       }
     },
   );

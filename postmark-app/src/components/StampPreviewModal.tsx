@@ -8,6 +8,7 @@ import { postalCoordinates } from '../utils/coordinateFormatter';
 import { formatPostalDate } from '../utils/dateFormatter';
 import { PostcardCard } from './postcards/PostcardCard';
 import { PostcardViewerScreen } from '../screens/PostcardViewerScreen';
+import { HolographicShine } from './stamps/HolographicShine';
 import { StampCard, STAMP_ASPECT } from './stamps/StampCard';
 import { VintagePostmark } from './stamps/VintagePostmark';
 
@@ -77,7 +78,9 @@ export function StampPreviewModal({ capture, onDiscard, onSaved }: Props) {
             <View style={styles.stage}>
               {mode === 'stamp' ? (
                 <View style={{ width: stampWidth, height: stampWidth * STAMP_ASPECT }}>
-                  <StampCard imageUri={capture.imageUri} country={loc.country} width={stampWidth} seed={seed} />
+                  <HolographicShine width={stampWidth} height={stampWidth * STAMP_ASPECT} active={capture !== null && mode === 'stamp'}>
+                    <StampCard imageUri={capture.imageUri} country={loc.country} width={stampWidth} seed={seed} />
+                  </HolographicShine>
                   <View pointerEvents="none" style={{ position: 'absolute', right: -postmarkSize * 0.3, bottom: -postmarkSize * 0.3 }}>
                     <VintagePostmark
                       cityName={loc.city}

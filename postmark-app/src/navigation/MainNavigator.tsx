@@ -25,6 +25,18 @@ export function MainNavigator() {
   const [tab, setTab] = useState<Tab>('camera');
   const [stamps, setStamps] = useState<StampRecord[]>([]);
   const [viewing, setViewing] = useState<StampRecord | null>(null);
+  const [newStampId, setNewStampId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!newStampId) return;
+    const t = setTimeout(() => setNewStampId(null), 4000);
+    return () => clearTimeout(t);
+  }, [newStampId]);
+
+  const onCollected = (stamp: StampRecord) => {
+    setNewStampId(stamp.id);
+    setTab('passport');
+  };
 
   const reload = useCallback(() => {
     getAllStamps().then(setStamps).catch(() => undefined);
@@ -54,9 +66,15 @@ export function MainNavigator() {
       <StatusBar style={tab === 'camera' ? 'light' : 'dark'} />
       {/* Solo la pestaña activa está montada: la cámara y el mapa no consumen recursos en segundo plano. */}
       <Animated.View key={tab} entering={FadeIn.duration(220)} style={styles.flex}>
-        {tab === 'camera' ? <CameraScreen /> : null}
+        {tab === 'camera' ? <CameraScreen onCollected={onCollected} /> : null}
         {tab === 'passport' ? (
-          <PassportView stamps={stamps} onOpen={setViewing} onDelete={remove} onGoToCamera={() => select('camera')} />
+          <PassportView
+            stamps={stamps}
+            onOpen={setViewing}
+            onDelete={remove}
+            onGoToCamera={() => select('camera')}
+            highlightId={newStampId}
+          />
         ) : null}
         {tab === 'map' ? <WorldMapView stamps={stamps} onOpen={setViewing} onGoToCamera={() => select('camera')} /> : null}
       </Animated.View>

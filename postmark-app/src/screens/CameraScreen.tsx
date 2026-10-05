@@ -1,5 +1,4 @@
 ﻿import { CameraView, useCameraPermissions } from 'expo-camera';
-import * as Haptics from 'expo-haptics';
 import * as Location from 'expo-location';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -7,9 +6,16 @@ import { CameraHeader } from '../components/CameraHeader';
 import { CaptureButton } from '../components/CaptureButton';
 import { StampPreviewModal, type PendingCapture } from '../components/StampPreviewModal';
 import { getCurrentStampLocation, requestLocationPermission, reverseGeocode } from '../services/locationService';
+import { playShutterClick, preloadSounds } from '../services/soundService';
 import { getStamps } from '../services/storageService';
+import type { StampItem } from '../types/stamp';
 
-export function CameraScreen() {
+interface Props {
+  /** Se llama tras coleccionar una estampilla (p. ej. para llevar al pasaporte). */
+  onCollected?: (stamp: StampItem) => void;
+}
+
+export function CameraScreen({ onCollected }: Props) {
   const cameraRef = useRef<CameraView>(null);
   const [permission, requestPermission] = useCameraPermissions();
   const [locationGranted, setLocationGranted] = useState(false);
@@ -20,6 +26,7 @@ export function CameraScreen() {
   const [pending, setPending] = useState<PendingCapture | null>(null);
 
   useEffect(() => {
+    preloadSounds();
     requestLocationPermission().then(setLocationGranted).catch(() => setLocationGranted(false));
     getStamps().then((s) => setCount(s.length)).catch(() => undefined);
   }, []);
@@ -52,7 +59,7 @@ export function CameraScreen() {
   const capture = useCallback(async () => {
     if (capturing || !cameraRef.current) return;
     setCapturing(true);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => undefined);
+    playShutterClick();
     try {
       const photoPromise = cameraRef.current.takePictureAsync({ quality: 0.85 });
       const locationPromise = locationGranted ? getCurrentStampLocation() : Promise.reject(new Error('sin permiso'));
@@ -95,9 +102,10 @@ export function CameraScreen() {
       <StampPreviewModal
         capture={pending}
         onDiscard={() => setPending(null)}
-        onSaved={() => {
+        onSaved={(item) => {
           setCount((c) => c + 1);
           setPending(null);
+          onCollected?.(item);
         }}
       />
     </View>

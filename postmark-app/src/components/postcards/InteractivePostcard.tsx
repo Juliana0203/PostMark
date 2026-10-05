@@ -1,6 +1,7 @@
 ﻿import { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
 import { View } from 'react-native';
 import * as Haptics from 'expo-haptics';
+import { playPaperRustle } from '../../services/soundService';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   cancelAnimation,
@@ -29,7 +30,6 @@ interface Props {
 }
 
 const SPRING = { damping: 14, stiffness: 90 };
-const light = () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
 const medium = () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => undefined);
 
 export const InteractivePostcard = forwardRef<InteractivePostcardHandle, Props>(function InteractivePostcard(
@@ -49,7 +49,7 @@ export const InteractivePostcard = forwardRef<InteractivePostcardHandle, Props>(
   }, []);
 
   const onCross = useCallback((isBack: boolean) => {
-    light();
+    playPaperRustle();
     setBackVisible(isBack);
     if (isBack) setInkKey((k) => k + 1);
   }, []);

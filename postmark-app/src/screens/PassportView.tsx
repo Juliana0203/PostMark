@@ -4,6 +4,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { StampCard, STAMP_ASPECT } from '../components/stamps/StampCard';
+import { StickerDropView } from '../components/stamps/StickerDropView';
 import { UNKNOWN_COUNTRY } from '../services/storageService';
 import type { StampRecord } from '../types/stamp';
 import { formatPostalDate } from '../utils/dateFormatter';
@@ -13,6 +14,8 @@ interface Props {
   onOpen: (stamp: StampRecord) => void;
   onDelete: (stamp: StampRecord) => void;
   onGoToCamera: () => void;
+  /** Estampilla recién coleccionada: cae sobre su celda con animación. */
+  highlightId?: string | null;
 }
 
 interface Section {
@@ -40,7 +43,7 @@ function buildSections(stamps: StampRecord[]): Section[] {
     });
 }
 
-export function PassportView({ stamps, onOpen, onDelete, onGoToCamera }: Props) {
+export function PassportView({ stamps, onOpen, onDelete, onGoToCamera, highlightId }: Props) {
   const { width } = useWindowDimensions();
   const { top, bottom } = useSafeAreaInsets();
   const sections = useMemo(() => buildSections(stamps), [stamps]);
@@ -97,7 +100,9 @@ export function PassportView({ stamps, onOpen, onDelete, onGoToCamera }: Props) 
                   accessibilityLabel={`Abrir postal de ${stamp.location.city}`}
                 >
                   <View style={{ height: stampWidth * STAMP_ASPECT, width: stampWidth, transform: [{ rotate: `${(stamp.id.charCodeAt(0) % 5) - 2}deg` }] }}>
-                    <StampCard imageUri={stamp.imageUri} country={stamp.location.country} width={stampWidth} seed={stamp.id} />
+                    <StickerDropView play={stamp.id === highlightId}>
+                      <StampCard imageUri={stamp.imageUri} country={stamp.location.country} width={stampWidth} seed={stamp.id} />
+                    </StickerDropView>
                   </View>
                 </Pressable>
                 <Text style={styles.city} numberOfLines={1}>{stamp.location.city}</Text>

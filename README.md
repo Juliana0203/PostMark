@@ -1,4 +1,4 @@
-# 📮 PostMark
+﻿# 📮 PostMark
 > *El pasaporte interactivo donde tus viajes se convierten en estampillas y postales vivas.*
 
 PostMark captura momentos de viaje en tiempo real y los transforma en **estampillas de colección** y **postales de doble cara**, certificadas con la geolocalización exacta del lugar y un matasellos vintage. Las creaciones se guardan en un **pasaporte digital**, se ubican en un **mapa de recuerdos** y se pueden **compartir** como imagen.
@@ -170,3 +170,9 @@ Implementación paralela en Swift 5.9+ / iOS 17+ con SwiftData, AVFoundation y C
 - **Fase 2:** `StampBorderShape`, `PostmarkStampView` (Canvas), `CancellationLinesShape`, `StampThumbnailView` y las vistas de postal reversible, más extensiones (`Path+Arc`, `View+StampModifiers`, `Color+Hex`).
 
 Para abrirlo hace falta macOS con Xcode 15+: `open PostMark.xcodeproj`, elegir el equipo en *Signing & Capabilities* y ejecutar en un iPhone. No se pudo compilar en el entorno de desarrollo (Windows), por lo que su validación se limitó a revisión de código y comprobación de la estructura del proyecto.
+## Remasterización sensorial
+
+- **HolographicShine**: foil dorado/tornasol sobre la estampilla (vista previa) que se desplaza y rota con la inclinación (`useDeviceTilt`).
+- **`soundService`**: `playStampThud` (Heavy), `playPaperRustle` (Light) y `playShutterClick` (Medium), cada uno con su sonido y háptico. Usa **`expo-audio`** porque `expo-av` ya no existe en Expo SDK 57. Los WAV de `assets/sounds` están sintetizados y se pueden reemplazar por otros.
+- **`StickerDropView`**: al coleccionar, la app salta al Pasaporte y la nueva estampilla cae (escala 1.15 → 1, sombra → suave, resorte muy amortiguado) con el golpe de sello al impactar.
+- Sin probar en dispositivo; la intensidad del foil puede requerir ajuste.
