@@ -15,9 +15,11 @@ interface Props {
   inkPlayKey?: number;
   /** Se llama al terminar de editar la nota (blur o al desmontar con cambios). */
   onNoteCommit?: (note: string) => void;
+  /** false para la exportación: la nota se muestra sin cursor ni teclado. */
+  editable?: boolean;
 }
 
-export function PostcardBack({ stamp, width, inkPlayKey, onNoteCommit }: Props) {
+export function PostcardBack({ stamp, width, inkPlayKey, onNoteCommit, editable = true }: Props) {
   const [note, setNote] = useState(stamp.note ?? '');
   const latest = useRef({ note, saved: stamp.note ?? '', onNoteCommit });
   latest.current.note = note;
@@ -44,6 +46,7 @@ export function PostcardBack({ stamp, width, inkPlayKey, onNoteCommit }: Props) 
         <TextInput
           style={[styles.note, { fontSize: width * 0.04 }]}
           multiline
+          editable={editable}
           value={note}
           onChangeText={setNote}
           onBlur={commit}
@@ -104,5 +107,6 @@ const styles = StyleSheet.create({
   line: { borderBottomWidth: 1, borderBottomColor: '#8A8174', borderStyle: 'dotted', justifyContent: 'flex-end' },
   coords: { color: '#6B6459', fontFamily: 'Courier', letterSpacing: 1 },
 });
+
 
 
