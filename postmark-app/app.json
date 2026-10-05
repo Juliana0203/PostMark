@@ -1,0 +1,31 @@
+﻿{
+  "expo": {
+    "name": "PostMark",
+    "slug": "postmark-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSCameraUsageDescription": "PostMark necesita acceso a tu cámara para capturar los momentos que convertirás en estampillas y postales de viaje.",
+        "NSLocationWhenInUseUsageDescription": "PostMark utiliza tu ubicación en tiempo real para certificar y registrar el lugar exacto en el matasellos de tu estampilla."
+      }
+    },
+    "plugins": [
+      ["expo-camera", { "cameraPermission": "PostMark necesita acceso a tu cámara para capturar los momentos que convertirás en estampillas y postales de viaje.", "recordAudioAndroid": false }],
+      ["expo-location", { "locationWhenInUsePermission": "PostMark utiliza tu ubicación en tiempo real para certificar y registrar el lugar exacto en el matasellos de tu estampilla." }]
+    ],
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FDFBF7",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": { "favicon": "./assets/favicon.png" }
+  }
+}
