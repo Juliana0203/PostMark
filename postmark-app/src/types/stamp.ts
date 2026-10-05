@@ -14,4 +14,8 @@ export interface StampItem {
   imageUri: string;
   location: StampLocation;
   isFavorite: boolean;
+  /** Nota de viaje escrita en el dorso de la postal. */
+  note?: string;
 }
+
+export type StampRecord = StampItem;

@@ -25,6 +25,7 @@ interface Props {
   /** Activa el giroscopio (pásalo en false cuando la postal no sea visible). */
   active?: boolean;
   tapToFlip?: boolean;
+  onNoteCommit?: (note: string) => void;
 }
 
 const SPRING = { damping: 14, stiffness: 90 };
@@ -32,7 +33,7 @@ const light = () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch
 const medium = () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => undefined);
 
 export const InteractivePostcard = forwardRef<InteractivePostcardHandle, Props>(function InteractivePostcard(
-  { stamp, width, active = true, tapToFlip = true },
+  { stamp, width, active = true, tapToFlip = true, onNoteCommit },
   ref,
 ) {
   const height = width / POSTCARD_ASPECT;
@@ -136,7 +137,7 @@ export const InteractivePostcard = forwardRef<InteractivePostcardHandle, Props>(
           <PostcardSheenOverlay width={width} glarePosition={glarePosition} />
         </Animated.View>
         <Animated.View style={backStyle} pointerEvents={backVisible ? 'auto' : 'none'}>
-          <PostcardBack stamp={stamp} width={width} inkPlayKey={inkKey} />
+          <PostcardBack stamp={stamp} width={width} inkPlayKey={inkKey} onNoteCommit={onNoteCommit} />
           <PostcardSheenOverlay width={width} glarePosition={glarePosition} />
         </Animated.View>
       </View>
@@ -145,4 +146,5 @@ export const InteractivePostcard = forwardRef<InteractivePostcardHandle, Props>(
 });
 
 export const _unused = StyleSheet;
+
 

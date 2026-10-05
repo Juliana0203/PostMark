@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { InteractivePostcard, type InteractivePostcardHandle } from '../components/postcards/InteractivePostcard';
 import type { StampData } from '../components/postcards/PostcardFront';
+import { updateStampNote } from '../services/storageService';
 
 interface Props {
   stamp: StampData;
@@ -23,7 +24,13 @@ export function PostcardViewerScreen({ stamp, onClose }: Props) {
       </Pressable>
 
       <View style={styles.stage}>
-        <InteractivePostcard ref={postcard} stamp={stamp} width={width * 0.92} tapToFlip={false} />
+        <InteractivePostcard
+          ref={postcard}
+          stamp={stamp}
+          width={width * 0.92}
+          tapToFlip={false}
+          onNoteCommit={stamp.id ? (note) => void updateStampNote(stamp.id as string, note).catch(() => undefined) : undefined}
+        />
       </View>
 
       <Pressable style={styles.flip} onPress={() => postcard.current?.flip()} accessibilityLabel="Voltear postal">
@@ -54,3 +61,5 @@ const styles = StyleSheet.create({
   },
   pillText: { color: '#CFC8BA', fontSize: 11, textAlign: 'center' },
 });
+
+

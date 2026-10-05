@@ -106,9 +106,10 @@ export function CameraScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#1F1F1F' },
-  shutter: { position: 'absolute', bottom: 48, left: 0, right: 0, alignItems: 'center' },
+  shutter: { position: 'absolute', bottom: 130, left: 0, right: 0, alignItems: 'center' },
   center: { flex: 1, backgroundColor: '#FDFBF7', alignItems: 'center', justifyContent: 'center', padding: 32 },
   message: { fontFamily: 'Georgia', fontSize: 17, color: '#1F1F1F', textAlign: 'center', marginBottom: 20 },
   permissionButton: { backgroundColor: '#1F1F1F', paddingHorizontal: 24, paddingVertical: 14, borderRadius: 28 },
   permissionText: { color: '#FDFBF7', fontWeight: '600' },
 });
+

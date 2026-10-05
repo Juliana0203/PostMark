@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { StampCard } from '../stamps/StampCard';
 import { AnimatedInkStamp } from '../stamps/AnimatedInkStamp';
@@ -13,10 +13,23 @@ interface Props {
   width: number;
   /** Si se define, el matasellos se estampa con animación cada vez que cambia (0 = oculto). */
   inkPlayKey?: number;
+  /** Se llama al terminar de editar la nota (blur o al desmontar con cambios). */
+  onNoteCommit?: (note: string) => void;
 }
 
-export function PostcardBack({ stamp, width, inkPlayKey }: Props) {
-  const [note, setNote] = useState('');
+export function PostcardBack({ stamp, width, inkPlayKey, onNoteCommit }: Props) {
+  const [note, setNote] = useState(stamp.note ?? '');
+  const latest = useRef({ note, saved: stamp.note ?? '', onNoteCommit });
+  latest.current.note = note;
+  latest.current.onNoteCommit = onNoteCommit;
+  const commit = () => {
+    const c = latest.current;
+    if (c.note !== c.saved) {
+      c.saved = c.note;
+      c.onNoteCommit?.(c.note);
+    }
+  };
+  useEffect(() => commit, []);
   const height = width / POSTCARD_ASPECT;
   const pad = width * 0.04;
   const stampW = width * 0.2;
@@ -33,6 +46,7 @@ export function PostcardBack({ stamp, width, inkPlayKey }: Props) {
           multiline
           value={note}
           onChangeText={setNote}
+          onBlur={commit}
           placeholder="Querido(a)…"
           placeholderTextColor="#A39B8E"
           maxLength={280}
@@ -90,4 +104,5 @@ const styles = StyleSheet.create({
   line: { borderBottomWidth: 1, borderBottomColor: '#8A8174', borderStyle: 'dotted', justifyContent: 'flex-end' },
   coords: { color: '#6B6459', fontFamily: 'Courier', letterSpacing: 1 },
 });
+
 

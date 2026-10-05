@@ -1,14 +1,12 @@
-﻿import { StatusBar } from 'expo-status-bar';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+﻿import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { CameraScreen } from './src/screens/CameraScreen';
+import { MainNavigator } from './src/navigation/MainNavigator';
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <CameraScreen />
-        <StatusBar style="light" />
+        <MainNavigator />
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
