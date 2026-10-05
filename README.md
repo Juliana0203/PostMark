@@ -176,3 +176,10 @@ Para abrirlo hace falta macOS con Xcode 15+: `open PostMark.xcodeproj`, elegir e
 - **`soundService`**: `playStampThud` (Heavy), `playPaperRustle` (Light) y `playShutterClick` (Medium), cada uno con su sonido y háptico. Usa **`expo-audio`** porque `expo-av` ya no existe en Expo SDK 57. Los WAV de `assets/sounds` están sintetizados y se pueden reemplazar por otros.
 - **`StickerDropView`**: al coleccionar, la app salta al Pasaporte y la nueva estampilla cae (escala 1.15 → 1, sombra → suave, resorte muy amortiguado) con el golpe de sello al impactar.
 - Sin probar en dispositivo; la intensidad del foil puede requerir ajuste.
+
+## Caligrafía y matasellos multiestilo
+
+- **Fuentes**: `@expo-google-fonts/caveat` (nota manuscrita en tinta añil `#1A365D`) y `@expo-google-fonts/marcellus` (encabezado editorial), cargadas con `useFonts` en `PostcardBack`.
+- **`VintagePostmarkVariants`**: 3 estilos de matasellos en SVG con desgaste de tinta irregular: *Clásico* (anillos + ondas), *Aduana* (octágono con código IATA ficticio derivado de la ciudad) y *Par Avion* (sello con franjas azul marino/burdeos + franjas en los bordes superior e inferior de la postal).
+- El estilo se elige en el visor (selector bajo la postal), se guarda en `StampItem.postmarkStyle` y se refleja también en la imagen exportada.
+- Sin probar en dispositivo.

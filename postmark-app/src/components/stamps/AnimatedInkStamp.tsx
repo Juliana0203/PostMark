@@ -7,18 +7,19 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 import { playStampThud } from '../../services/soundService';
-import { VintagePostmark } from './VintagePostmark';
+import { VintagePostmarkVariant, type PostmarkStyle } from './VintagePostmarkVariants';
 
-type PostmarkProps = Parameters<typeof VintagePostmark>[0];
+type PostmarkProps = Omit<Parameters<typeof VintagePostmarkVariant>[0], 'variant'>;
 
 interface Props extends PostmarkProps {
   /** 0 = aún oculto; cada incremento reproduce de nuevo el estampado. */
   playKey: number;
+  variant?: PostmarkStyle;
 }
 
 const SPRING = { damping: 10, mass: 0.8, stiffness: 200 };
 
-export function AnimatedInkStamp({ playKey, ...postmark }: Props) {
+export function AnimatedInkStamp({ playKey, variant = 'classic', ...postmark }: Props) {
   const scale = useSharedValue(1.6);
   const opacity = useSharedValue(0);
   const extraRotation = useSharedValue(10);
@@ -53,7 +54,7 @@ export function AnimatedInkStamp({ playKey, ...postmark }: Props) {
 
   return (
     <Animated.View pointerEvents="none" style={style}>
-      <VintagePostmark {...postmark} />
+      <VintagePostmarkVariant variant={variant} {...postmark} />
     </Animated.View>
   );
 }

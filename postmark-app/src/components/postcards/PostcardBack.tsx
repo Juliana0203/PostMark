@@ -2,11 +2,15 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { StampCard } from '../stamps/StampCard';
 import { AnimatedInkStamp } from '../stamps/AnimatedInkStamp';
-import { VintagePostmark } from '../stamps/VintagePostmark';
+import { Caveat_500Medium } from '@expo-google-fonts/caveat';
+import { Marcellus_400Regular } from '@expo-google-fonts/marcellus';
+import { useFonts } from 'expo-font';
+import { AirMailBorder, VintagePostmarkVariant } from '../stamps/VintagePostmarkVariants';
 import { postalCoordinates } from '../../utils/coordinateFormatter';
 import { POSTCARD_ASPECT, type StampData } from './PostcardFront';
 
 const INK = '#3A3633';
+const NOTE_INK = '#1A365D';
 
 interface Props {
   stamp: StampData;
@@ -20,6 +24,7 @@ interface Props {
 }
 
 export function PostcardBack({ stamp, width, inkPlayKey, onNoteCommit, editable = true }: Props) {
+  const [fontsLoaded] = useFonts({ Caveat_500Medium, Marcellus_400Regular });
   const [note, setNote] = useState(stamp.note ?? '');
   const latest = useRef({ note, saved: stamp.note ?? '', onNoteCommit });
   latest.current.note = note;
@@ -38,13 +43,14 @@ export function PostcardBack({ stamp, width, inkPlayKey, onNoteCommit, editable 
   const postmarkSize = width * 0.2;
   const { location } = stamp;
   const seed = stamp.id ?? stamp.timestamp;
+  const variant = stamp.postmarkStyle ?? 'classic';
 
   return (
     <View style={[styles.card, { width, height, padding: pad }]}>
       <View style={styles.left}>
-        <Text style={[styles.heading, { fontSize: width * 0.028 }]}>NOTA DE VIAJE</Text>
+        <Text style={[styles.heading, fontsLoaded ? styles.headingFont : null, { fontSize: width * 0.03 }]}>NOTA DE VIAJE</Text>
         <TextInput
-          style={[styles.note, { fontSize: width * 0.04 }]}
+          style={[styles.note, fontsLoaded ? styles.noteFont : null, { fontSize: width * 0.052, lineHeight: width * 0.062 }]}
           multiline
           editable={editable}
           value={note}
@@ -83,12 +89,13 @@ export function PostcardBack({ stamp, width, inkPlayKey, onNoteCommit, editable 
             seed,
           };
           return inkPlayKey === undefined ? (
-            <VintagePostmark {...props} />
+            <VintagePostmarkVariant variant={variant} {...props} />
           ) : (
-            <AnimatedInkStamp {...props} playKey={inkPlayKey} />
+            <AnimatedInkStamp {...props} variant={variant} playKey={inkPlayKey} />
           );
         })()}
       </View>
+      {variant === 'airmail' ? <AirMailBorder width={width} height={height} /> : null}
     </View>
   );
 }
@@ -100,7 +107,9 @@ const styles = StyleSheet.create({
   },
   left: { flex: 1, paddingRight: 10 },
   heading: { color: '#8A8174', letterSpacing: 2, marginBottom: 4 },
-  note: { flex: 1, color: INK, fontFamily: 'Georgia', textAlignVertical: 'top', padding: 0 },
+  headingFont: { fontFamily: 'Marcellus_400Regular' },
+  noteFont: { fontFamily: 'Caveat_500Medium' },
+  note: { flex: 1, color: NOTE_INK, fontFamily: 'Georgia', textAlignVertical: 'top', padding: 0 },
   divider: { position: 'absolute', left: '50%', width: 1, backgroundColor: '#B9B0A0' },
   right: { flex: 1, paddingLeft: 10, justifyContent: 'space-between' },
   addressBlock: { gap: 4 },

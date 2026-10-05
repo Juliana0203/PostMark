@@ -63,7 +63,7 @@ export function saveStamp(stamp: Omit<StampItem, 'id'>): Promise<StampItem> {
   });
 }
 
-export function updateStamp(id: string, patch: Partial<Pick<StampRecord, 'note' | 'isFavorite'>>): Promise<void> {
+export function updateStamp(id: string, patch: Partial<Pick<StampRecord, 'note' | 'isFavorite' | 'postmarkStyle'>>): Promise<void> {
   return serialized(async () => {
     const stamps = await readAll();
     await writeAll(stamps.map((s) => (s.id === id ? { ...s, ...patch } : s)));

@@ -16,6 +16,8 @@ export interface StampItem {
   isFavorite: boolean;
   /** Nota de viaje escrita en el dorso de la postal. */
   note?: string;
+  /** Estilo del matasellos elegido para el dorso (por defecto 'classic'). */
+  postmarkStyle?: 'classic' | 'customs' | 'airmail';
 }
 
 export type StampRecord = StampItem;

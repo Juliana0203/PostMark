@@ -8,7 +8,8 @@ import { EXPORT_HEIGHT, EXPORT_WIDTH, ExportPostcardCanvas } from '../components
 import { InteractivePostcard, type InteractivePostcardHandle } from '../components/postcards/InteractivePostcard';
 import { PostcardActionsBar } from '../components/postcards/PostcardActionsBar';
 import type { StampData } from '../components/postcards/PostcardFront';
-import { updateStampNote } from '../services/storageService';
+import { PostmarkStylePicker, type PostmarkStyle } from '../components/stamps/VintagePostmarkVariants';
+import { updateStamp, updateStampNote } from '../services/storageService';
 
 interface Props {
   stamp: StampData;
@@ -23,6 +24,7 @@ export function PostcardViewerScreen({ stamp, onClose }: Props) {
   const postcard = useRef<InteractivePostcardHandle>(null);
   const exportRef = useRef<View>(null);
   const [note, setNote] = useState(stamp.note ?? '');
+  const [postmarkStyle, setPostmarkStyle] = useState<PostmarkStyle>(stamp.postmarkStyle ?? 'classic');
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,6 +37,14 @@ export function PostcardViewerScreen({ stamp, onClose }: Props) {
     (value: string) => {
       setNote(value);
       if (stamp.id) void updateStampNote(stamp.id, value).catch(() => undefined);
+    },
+    [stamp.id],
+  );
+
+  const onStyleChange = useCallback(
+    (value: PostmarkStyle) => {
+      setPostmarkStyle(value);
+      if (stamp.id) void updateStamp(stamp.id, { postmarkStyle: value }).catch(() => undefined);
     },
     [stamp.id],
   );
@@ -54,11 +64,15 @@ export function PostcardViewerScreen({ stamp, onClose }: Props) {
       <View style={styles.stage}>
         <InteractivePostcard
           ref={postcard}
-          stamp={{ ...stamp, note }}
+          stamp={{ ...stamp, note, postmarkStyle }}
           width={width * 0.92}
           tapToFlip={false}
           onNoteCommit={onNoteCommit}
         />
+      </View>
+
+      <View style={[styles.styleRow, { bottom: bottom + 250 }]}>
+        <PostmarkStylePicker value={postmarkStyle} onChange={onStyleChange} />
       </View>
 
       <Pressable style={styles.flip} onPress={() => postcard.current?.flip()} accessibilityLabel="Voltear postal">
@@ -83,7 +97,7 @@ export function PostcardViewerScreen({ stamp, onClose }: Props) {
 
       {/* Fuera de pantalla: lienzo apaisado frente + dorso para la captura. */}
       <View pointerEvents="none" style={styles.offscreen}>
-        <ExportPostcardCanvas ref={exportRef} key={note} stamp={{ ...stamp, note }} />
+        <ExportPostcardCanvas ref={exportRef} key={`|`} stamp={{ ...stamp, note, postmarkStyle }} />
       </View>
     </GestureHandlerRootView>
   );
@@ -100,6 +114,7 @@ const styles = StyleSheet.create({
     position: 'absolute', right: 20, bottom: 190, width: 54, height: 54, borderRadius: 27,
     alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(242,237,227,0.14)',
   },
+  styleRow: { position: 'absolute', left: 0, right: 0 },
   actions: { position: 'absolute', left: 0, right: 0 },
   pill: {
     position: 'absolute', alignSelf: 'center', paddingHorizontal: 16, paddingVertical: 8,
