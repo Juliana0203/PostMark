@@ -8,7 +8,7 @@ import { StampPreviewModal, type PendingCapture } from '../components/StampPrevi
 import { getCurrentStampLocation, requestLocationPermission, reverseGeocode } from '../services/locationService';
 import { playShutterClick, preloadSounds } from '../services/soundService';
 import { getStamps } from '../services/storageService';
-import type { StampItem } from '../types/stamp';
+import type { StampItem, StampLocation } from '../types/stamp';
 
 interface Props {
   /** Se llama tras coleccionar una estampilla (p. ej. para llevar al pasaporte). */
@@ -65,10 +65,12 @@ export function CameraScreen({ onCollected }: Props) {
       const locationPromise = locationGranted ? getCurrentStampLocation() : Promise.reject(new Error('sin permiso'));
       const [photo, location] = await Promise.all([photoPromise, locationPromise.catch(() => null)]);
       if (!photo?.uri) throw new Error('Sin imagen');
+      const { needsGeocoding, ...place } = location ?? { needsGeocoding: false };
       setPending({
         imageUri: photo.uri,
         timestamp: new Date().toISOString(),
-        location: location ?? {
+        needsGeocoding,
+        location: location ? (place as StampLocation) : {
           latitude: 0, longitude: 0, altitude: null, placeName: null,
           city: 'Ubicación Desconocida', country: 'Ubicación Desconocida', isoCountryCode: null,
         },

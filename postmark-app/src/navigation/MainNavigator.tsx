@@ -9,6 +9,7 @@ import { CameraScreen } from '../screens/CameraScreen';
 import { PassportView } from '../screens/PassportView';
 import { PostcardViewerScreen } from '../screens/PostcardViewerScreen';
 import { WorldMapView } from '../screens/WorldMapView';
+import { onGeocodingUpdated, startOfflineGeocoding } from '../services/offlineQueueService';
 import { deleteStamp, getAllStamps } from '../services/storageService';
 import type { StampRecord } from '../types/stamp';
 
@@ -41,6 +42,15 @@ export function MainNavigator() {
   const reload = useCallback(() => {
     getAllStamps().then(setStamps).catch(() => undefined);
   }, []);
+
+  useEffect(() => {
+    const stop = startOfflineGeocoding();
+    const off = onGeocodingUpdated(reload);
+    return () => {
+      stop();
+      off();
+    };
+  }, [reload]);
 
   // Se relee al cambiar de pestaña para reflejar lo recién coleccionado.
   useEffect(reload, [tab, reload]);

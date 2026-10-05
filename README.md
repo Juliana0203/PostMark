@@ -183,3 +183,9 @@ Para abrirlo hace falta macOS con Xcode 15+: `open PostMark.xcodeproj`, elegir e
 - **`VintagePostmarkVariants`**: 3 estilos de matasellos en SVG con desgaste de tinta irregular: *Clásico* (anillos + ondas), *Aduana* (octágono con código IATA ficticio derivado de la ciudad) y *Par Avion* (sello con franjas azul marino/burdeos + franjas en los bordes superior e inferior de la postal).
 - El estilo se elige en el visor (selector bajo la postal), se guarda en `StampItem.postmarkStyle` y se refleja también en la imagen exportada.
 - Sin probar en dispositivo.
+
+## Modo offline y agrupación en el mapa
+
+- **`offlineQueueService`**: si la geocodificación inversa falla por falta de red al capturar, la estampilla se guarda con sus coordenadas y `needsGeocoding: true` (ciudad/país "Ubicación Desconocida"). Con `@react-native-community/netinfo` se detecta la reconexión y se completan automáticamente ciudad y país en el almacenamiento local (AsyncStorage); el álbum y el mapa se refrescan solos.
+- **Clusters en `WorldMapView`** (`utils/clusterStamps`): los sellos cercanos (proporcional al zoom) se agrupan en un pin con forma de pila de estampillas y una insignia "xN". Al tocarlo, la cámara hace zoom animado para desplegarlos; en zoom máximo se muestran sueltos.
+- Sin probar en dispositivo.

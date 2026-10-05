@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker, type Region } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { clusterStamps, MIN_CLUSTER_DELTA, type StampCluster } from '../utils/clusterStamps';
 import { hasRealCoordinates } from '../utils/coordinateFormatter';
 import { formatPostalDate } from '../utils/dateFormatter';
 import type { StampRecord } from '../types/stamp';
@@ -38,10 +39,44 @@ function StampPin({ stamp, selected, onPress }: { stamp: StampRecord; selected: 
   );
 }
 
+function ClusterPin({ cluster, onPress }: { cluster: StampCluster; onPress: () => void }) {
+  const [track, setTrack] = useState(true);
+  useEffect(() => {
+    setTrack(true);
+    const t = setTimeout(() => setTrack(false), 700);
+    return () => clearTimeout(t);
+  }, [cluster.key]);
+  const top = cluster.stamps[0];
+  const below = cluster.stamps[1];
+
+  return (
+    <Marker
+      coordinate={{ latitude: cluster.latitude, longitude: cluster.longitude }}
+      onPress={onPress}
+      tracksViewChanges={track}
+      anchor={{ x: 0.5, y: 0.5 }}
+    >
+      <View style={styles.clusterBox}>
+        <View style={[styles.pin, styles.stackBack, { transform: [{ rotate: '-9deg' }] }]} />
+        <View style={[styles.pin, styles.stackBack, { transform: [{ rotate: '8deg' }] }]}>
+          {below ? <Image source={{ uri: below.imageUri }} style={styles.pinImage} /> : null}
+        </View>
+        <View style={styles.pin}>
+          <Image source={{ uri: top.imageUri }} style={styles.pinImage} onLoadEnd={() => setTrack(false)} />
+        </View>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{`x${cluster.stamps.length}`}</Text>
+        </View>
+      </View>
+    </Marker>
+  );
+}
+
 export function WorldMapView({ stamps, onOpen, onGoToCamera }: Props) {
   const { top, bottom } = useSafeAreaInsets();
   const mapRef = useRef<MapView>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [lonDelta, setLonDelta] = useState(0.2);
   const located = useMemo(
     () => stamps.filter((s) => hasRealCoordinates(s.location.latitude, s.location.longitude)),
     [stamps],
@@ -55,6 +90,25 @@ export function WorldMapView({ stamps, onOpen, onGoToCamera }: Props) {
       ? { latitude: last.location.latitude, longitude: last.location.longitude, latitudeDelta: 0.2, longitudeDelta: 0.2 }
       : undefined;
   }, [located]);
+
+  const clusters = useMemo(() => clusterStamps(located, lonDelta), [located, lonDelta]);
+
+  // Acerca la cámara a los miembros del grupo hasta que se desplieguen.
+  const expand = useCallback((cluster: StampCluster) => {
+    setSelectedId(null);
+    const coords = cluster.stamps.map((s) => ({ latitude: s.location.latitude, longitude: s.location.longitude }));
+    const lats = coords.map((c) => c.latitude);
+    const lons = coords.map((c) => c.longitude);
+    const span = Math.max(Math.max(...lats) - Math.min(...lats), Math.max(...lons) - Math.min(...lons));
+    if (span < MIN_CLUSTER_DELTA / 4) {
+      mapRef.current?.animateToRegion(
+        { latitude: cluster.latitude, longitude: cluster.longitude, latitudeDelta: MIN_CLUSTER_DELTA / 2, longitudeDelta: MIN_CLUSTER_DELTA / 2 },
+        450,
+      );
+    } else {
+      mapRef.current?.fitToCoordinates(coords, { edgePadding: { top: 160, right: 90, bottom: 260, left: 90 }, animated: true });
+    }
+  }, []);
 
   const fitAll = useCallback(() => {
     if (located.length < 2) return;
@@ -76,12 +130,22 @@ export function WorldMapView({ stamps, onOpen, onGoToCamera }: Props) {
         initialRegion={initialRegion}
         onMapReady={fitAll}
         onPress={() => setSelectedId(null)}
+        onRegionChangeComplete={(r) => setLonDelta(r.longitudeDelta)}
         showsUserLocation
         showsCompass={false}
       >
-        {located.map((stamp) => (
-          <StampPin key={stamp.id} stamp={stamp} selected={stamp.id === selectedId} onPress={() => setSelectedId(stamp.id)} />
-        ))}
+        {clusters.map((cluster) =>
+          cluster.stamps.length === 1 ? (
+            <StampPin
+              key={cluster.key}
+              stamp={cluster.stamps[0]}
+              selected={cluster.stamps[0].id === selectedId}
+              onPress={() => setSelectedId(cluster.stamps[0].id)}
+            />
+          ) : (
+            <ClusterPin key={cluster.key} cluster={cluster} onPress={() => expand(cluster)} />
+          ),
+        )}
       </MapView>
 
       {located.length === 0 ? (
@@ -120,6 +184,13 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: '#B9B0A0',
   },
   pinSelected: { borderColor: '#8B1E2D', borderWidth: 2 },
+  clusterBox: { width: PIN + 14, height: PIN + 14, alignItems: 'center', justifyContent: 'center' },
+  stackBack: { position: 'absolute' },
+  badge: {
+    position: 'absolute', top: 0, right: 0, minWidth: 26, height: 20, borderRadius: 10, paddingHorizontal: 5,
+    backgroundColor: '#8B1E2D', alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: '#FDFBF7',
+  },
+  badgeText: { color: '#FDFBF7', fontSize: 11, fontWeight: '700' },
   pinImage: { flex: 1, borderRadius: 2 },
   banner: {
     position: 'absolute', alignSelf: 'center', backgroundColor: 'rgba(253,251,247,0.95)', borderRadius: 16,

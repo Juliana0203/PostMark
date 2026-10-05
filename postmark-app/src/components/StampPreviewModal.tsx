@@ -18,6 +18,7 @@ export interface PendingCapture {
   imageUri: string;
   timestamp: string;
   location: StampLocation;
+  needsGeocoding?: boolean;
 }
 
 interface Props {
