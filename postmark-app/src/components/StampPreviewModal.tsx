@@ -91,7 +91,8 @@ export function StampPreviewModal({ capture, onDiscard, onSaved }: Props) {
             <View style={styles.label}>
               <Text style={styles.destination} numberOfLines={1}>{destination}</Text>
               <Text style={styles.meta}>{formatPostalDate(capture.timestamp)} · {coordinates}</Text>
-            </View>            {error && <Text style={styles.error}>{error}</Text>}
+            </View>
+            {error ? <Text style={styles.error}>{error}</Text> : null}
             <View style={styles.actions}>
               <Pressable style={[styles.button, styles.secondary]} onPress={onDiscard} disabled={saving}>
                 <Ionicons name="close" size={18} color="#1F1F1F" />
@@ -131,5 +132,6 @@ const styles = StyleSheet.create({
   primary: { backgroundColor: '#1F1F1F' },
   primaryText: { color: '#FDFBF7', fontWeight: '600' },
 });
+
 
 
