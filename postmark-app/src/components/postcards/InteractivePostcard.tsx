@@ -144,7 +144,3 @@ export const InteractivePostcard = forwardRef<InteractivePostcardHandle, Props>(
     </GestureDetector>
   );
 });
-
-export const _unused = StyleSheet;
-
-
