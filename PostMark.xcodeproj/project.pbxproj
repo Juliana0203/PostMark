@@ -1,0 +1,163 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* PostMarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* PostMarkApp.swift */; };
+		A10000000000000000000002 /* StampItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* StampItem.swift */; };
+		A10000000000000000000003 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* LocationManager.swift */; };
+		A10000000000000000000004 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* CameraService.swift */; };
+		A10000000000000000000005 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* StorageManager.swift */; };
+		A10000000000000000000006 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* CameraPreviewView.swift */; };
+		A10000000000000000000007 /* CaptureScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000007 /* CaptureScreen.swift */; };
+		A10000000000000000000008 /* CompassLocationBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000008 /* CompassLocationBadge.swift */; };
+		A10000000000000000000009 /* StampPreviewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000009 /* StampPreviewSheet.swift */; };
+		A1000000000000000000000A /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000A /* HapticFeedback.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B10000000000000000000001 /* PostMarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMarkApp.swift; sourceTree = "<group>"; };
+		B10000000000000000000002 /* StampItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampItem.swift; sourceTree = "<group>"; };
+		B10000000000000000000003 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		B10000000000000000000004 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		B10000000000000000000005 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		B10000000000000000000006 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		B10000000000000000000007 /* CaptureScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureScreen.swift; sourceTree = "<group>"; };
+		B10000000000000000000008 /* CompassLocationBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassLocationBadge.swift; sourceTree = "<group>"; };
+		B10000000000000000000009 /* StampPreviewSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampPreviewSheet.swift; sourceTree = "<group>"; };
+		B1000000000000000000000A /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
+		B1000000000000000000000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B1000000000000000000000C /* PostMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		C10000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				C10000000000000000000002 /* PostMark */,
+				C10000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C10000000000000000000002 /* PostMark */ = {
+			isa = PBXGroup;
+			path = PostMark;
+			sourceTree = "<group>";
+			children = (
+				C10000000000000000000004 /* App */,
+				C10000000000000000000005 /* Models */,
+				C10000000000000000000006 /* Services */,
+				C10000000000000000000007 /* Views */,
+				C10000000000000000000008 /* Utilities */,
+			);
+		};
+		C10000000000000000000004 /* App */ = {isa = PBXGroup; path = App; sourceTree = "<group>"; children = (B10000000000000000000001, B1000000000000000000000B,); };
+		C10000000000000000000005 /* Models */ = {isa = PBXGroup; path = Models; sourceTree = "<group>"; children = (B10000000000000000000002,); };
+		C10000000000000000000006 /* Services */ = {isa = PBXGroup; path = Services; sourceTree = "<group>"; children = (B10000000000000000000003, B10000000000000000000004, B10000000000000000000005,); };
+		C10000000000000000000007 /* Views */ = {
+			isa = PBXGroup;
+			path = Views;
+			sourceTree = "<group>";
+			children = (
+				C10000000000000000000009 /* Camera */,
+				C1000000000000000000000A /* Components */,
+			);
+		};
+		C10000000000000000000009 /* Camera */ = {isa = PBXGroup; path = Camera; sourceTree = "<group>"; children = (B10000000000000000000006, B10000000000000000000007,); };
+		C1000000000000000000000A /* Components */ = {isa = PBXGroup; path = Components; sourceTree = "<group>"; children = (B10000000000000000000008, B10000000000000000000009,); };
+		C10000000000000000000008 /* Utilities */ = {isa = PBXGroup; path = Utilities; sourceTree = "<group>"; children = (B1000000000000000000000A,); };
+		C10000000000000000000003 /* Products */ = {isa = PBXGroup; name = Products; sourceTree = "<group>"; children = (B1000000000000000000000C,); };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D10000000000000000000001 /* PostMark */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E10000000000000000000002;
+			buildPhases = (F10000000000000000000001, F10000000000000000000002, F10000000000000000000003,);
+			buildRules = ();
+			dependencies = ();
+			name = PostMark;
+			productName = PostMark;
+			productReference = B1000000000000000000000C;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D10000000000000000000002 /* Project object */ = {
+			isa = PBXProject;
+			attributes = { BuildIndependentTargetsInParallel = 1; LastUpgradeCheck = 1500; };
+			buildConfigurationList = E10000000000000000000001;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = es;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, es, Base,);
+			mainGroup = C10000000000000000000001;
+			productRefGroup = C10000000000000000000003;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (D10000000000000000000001,);
+		};
+/* End PBXProject section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F10000000000000000000001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001, A10000000000000000000002, A10000000000000000000003, A10000000000000000000004, A10000000000000000000005, A10000000000000000000006, A10000000000000000000007, A10000000000000000000008, A10000000000000000000009, A1000000000000000000000A,); runOnlyForDeploymentPostprocessing = 0; };
+		F10000000000000000000002 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		F10000000000000000000003 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E10000000000000000000003 /* Debug project */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; };
+			name = Debug;
+		};
+		E10000000000000000000004 /* Release project */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; };
+			name = Release;
+		};
+		E10000000000000000000005 /* Debug target */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PostMark/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.postmark.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E10000000000000000000006 /* Release target */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PostMark/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.postmark.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E10000000000000000000001 /* Project configuration list */ = {isa = XCConfigurationList; buildConfigurations = (E10000000000000000000003, E10000000000000000000004,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		E10000000000000000000002 /* Target configuration list */ = {isa = XCConfigurationList; buildConfigurations = (E10000000000000000000005, E10000000000000000000006,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = D10000000000000000000002;
+}
