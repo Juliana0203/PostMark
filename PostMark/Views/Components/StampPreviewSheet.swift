@@ -27,21 +27,9 @@ struct StampPreviewSheet: View {
                         .foregroundStyle(ink)
 
                     if let image = UIImage(data: media.imageData) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
+                        StampThumbnailView(image: image, metadata: metadata, showsPostmark: true)
+                            .frame(width: 240)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 330)
-                            .clipped()
-                            .clipShape(PerforatedStampShape(), style: FillStyle(eoFill: true))
-                            .overlay(alignment: .bottomTrailing) {
-                                Text(media.timestamp, format: .dateTime.day().month(.abbreviated).year())
-                                    .font(.system(.caption, design: .serif).weight(.semibold))
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 8)
-                                    .background(paper.opacity(0.94), in: Capsule())
-                                    .padding(18)
-                            }
                     }
 
                     VStack(alignment: .leading, spacing: 12) {
@@ -101,6 +89,19 @@ struct StampPreviewSheet: View {
         .presentationDetents([.large])
     }
 
+    private var metadata: StampMetadata {
+        StampMetadata(
+            id: media.id,
+            date: media.timestamp,
+            placeName: place.place,
+            city: place.city,
+            country: place.country,
+            isoCountryCode: place.code,
+            latitude: location?.coordinate.latitude ?? 0,
+            longitude: location?.coordinate.longitude ?? 0
+        )
+    }
+
     @MainActor
     private func save() {
         guard !isSaving else { return }
@@ -113,6 +114,7 @@ struct StampPreviewSheet: View {
             let stored = try storage.store(media)
             storedMedia = stored
             let item = StampItem(
+                id: media.id,
                 timestamp: media.timestamp,
                 imageFilename: stored.imageFilename,
                 videoMotionFilename: stored.videoMotionFilename,
@@ -140,30 +142,5 @@ struct StampPreviewSheet: View {
             }
             saveError = message
         }
-    }
-}
-
-private struct PerforatedStampShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        let radius: CGFloat = 5
-        let spacing: CGFloat = 15
-        let inset: CGFloat = 8
-        var path = Path()
-        path.addRect(rect)
-
-        var x = rect.minX + inset
-        while x < rect.maxX {
-            path.addEllipse(in: CGRect(x: x - radius, y: rect.minY - radius, width: radius * 2, height: radius * 2))
-            path.addEllipse(in: CGRect(x: x - radius, y: rect.maxY - radius, width: radius * 2, height: radius * 2))
-            x += spacing
-        }
-
-        var y = rect.minY + inset
-        while y < rect.maxY {
-            path.addEllipse(in: CGRect(x: rect.minX - radius, y: y - radius, width: radius * 2, height: radius * 2))
-            path.addEllipse(in: CGRect(x: rect.maxX - radius, y: y - radius, width: radius * 2, height: radius * 2))
-            y += spacing
-        }
-        return path
     }
 }

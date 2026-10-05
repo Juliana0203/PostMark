@@ -7,7 +7,7 @@ PostMark es una aplicación nativa para iOS diseñada con SwiftUI y AVFoundation
 
 ### ✨ Características Clave (Roadmap General)
 - [x] **Fase 1: Captura & Geolocalización:** Obturador con captura Live Motion y geocodificación inversa en tiempo real.
-- [ ] **Fase 2: Motor de Estampilla & Matasellos:** Bordes troquelados por shader vectorial y sello de tinta desgastada con fecha.
+- [x] **Fase 2: Motor de Estampilla & Matasellos:** Bordes troquelados por shader vectorial y sello de tinta desgastada con fecha.
 - [ ] **Fase 3: Física & Parallax 3D:** Volteo fluido de postal y respuesta a la inclinación del teléfono con giroscopio.
 - [ ] **Fase 4: Pasaporte & Cartografía:** Álbum coleccionable y mapa interactivo de recuerdos fijados por coordenadas.
 - [ ] **Fase 5: Compartir & Visor Web:** Exportación en video bucle y enlace web interactivo para compartir por mensajería.
@@ -43,3 +43,8 @@ PostMark es una aplicación nativa para iOS diseñada con SwiftUI y AVFoundation
 - **AVFoundation:** Captura simultánea de imagen de alta fidelidad y búfer de movimiento.
 - **CoreLocation:** Rastreo geográfico eficiente con resolución inversa de nombres de lugares.
 - **SwiftData:** Persistencia local con consultas tipadas y seguras.
+
+### 🎨 Motor gráfico (Fase 2)
+- **StampBorderShape:** silueta paramétrica con perforaciones simétricas; los dientes escalan con el ancho del sello.
+- **PostmarkStampView:** matasellos vectorial (Canvas) con anillos irregulares, texto arqueado, ondas de cancelación y desgaste determinista por UUID, fundido con .multiply.
+- **PostcardContainerView:** postal reversible (toca para voltear) con anverso fotográfico y reverso con estampilla y matasellos.

@@ -16,6 +16,17 @@
 		A10000000000000000000008 /* CompassLocationBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000008 /* CompassLocationBadge.swift */; };
 		A10000000000000000000009 /* StampPreviewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000009 /* StampPreviewSheet.swift */; };
 		A1000000000000000000000A /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000A /* HapticFeedback.swift */; };
+		A20000000000000000000001 /* Path+Arc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000001 /* Path+Arc.swift */; };
+		A20000000000000000000002 /* View+StampModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000002 /* View+StampModifiers.swift */; };
+		A20000000000000000000003 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000003 /* Color+Hex.swift */; };
+		A20000000000000000000004 /* StampMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000004 /* StampMetadata.swift */; };
+		A20000000000000000000005 /* StampBorderShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000005 /* StampBorderShape.swift */; };
+		A20000000000000000000006 /* PostmarkStampView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000006 /* PostmarkStampView.swift */; };
+		A20000000000000000000007 /* CancellationLinesShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000007 /* CancellationLinesShape.swift */; };
+		A20000000000000000000008 /* StampThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000008 /* StampThumbnailView.swift */; };
+		A20000000000000000000009 /* PostcardContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000009 /* PostcardContainerView.swift */; };
+		A2000000000000000000000A /* PostcardFrontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000000A /* PostcardFrontView.swift */; };
+		A2000000000000000000000B /* PostcardBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000000B /* PostcardBackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +42,17 @@
 		B1000000000000000000000A /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		B1000000000000000000000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1000000000000000000000C /* PostMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B20000000000000000000001 /* Path+Arc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path+Arc.swift; sourceTree = "<group>"; };
+		B20000000000000000000002 /* View+StampModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View+StampModifiers.swift; sourceTree = "<group>"; };
+		B20000000000000000000003 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color+Hex.swift; sourceTree = "<group>"; };
+		B20000000000000000000004 /* StampMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampMetadata.swift; sourceTree = "<group>"; };
+		B20000000000000000000005 /* StampBorderShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampBorderShape.swift; sourceTree = "<group>"; };
+		B20000000000000000000006 /* PostmarkStampView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostmarkStampView.swift; sourceTree = "<group>"; };
+		B20000000000000000000007 /* CancellationLinesShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationLinesShape.swift; sourceTree = "<group>"; };
+		B20000000000000000000008 /* StampThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampThumbnailView.swift; sourceTree = "<group>"; };
+		B20000000000000000000009 /* PostcardContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostcardContainerView.swift; sourceTree = "<group>"; };
+		B2000000000000000000000A /* PostcardFrontView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostcardFrontView.swift; sourceTree = "<group>"; };
+		B2000000000000000000000B /* PostcardBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostcardBackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -52,10 +74,11 @@
 				C10000000000000000000006 /* Services */,
 				C10000000000000000000007 /* Views */,
 				C10000000000000000000008 /* Utilities */,
+				C20000000000000000000001 /* Extensions */,
 			);
 		};
 		C10000000000000000000004 /* App */ = {isa = PBXGroup; path = App; sourceTree = "<group>"; children = (B10000000000000000000001, B1000000000000000000000B,); };
-		C10000000000000000000005 /* Models */ = {isa = PBXGroup; path = Models; sourceTree = "<group>"; children = (B10000000000000000000002,); };
+		C10000000000000000000005 /* Models */ = {isa = PBXGroup; path = Models; sourceTree = "<group>"; children = (B10000000000000000000002, B20000000000000000000004,); };
 		C10000000000000000000006 /* Services */ = {isa = PBXGroup; path = Services; sourceTree = "<group>"; children = (B10000000000000000000003, B10000000000000000000004, B10000000000000000000005,); };
 		C10000000000000000000007 /* Views */ = {
 			isa = PBXGroup;
@@ -64,12 +87,19 @@
 			children = (
 				C10000000000000000000009 /* Camera */,
 				C1000000000000000000000A /* Components */,
+				C20000000000000000000002 /* Stamps */,
+				C20000000000000000000005 /* Postcards */,
 			);
 		};
 		C10000000000000000000009 /* Camera */ = {isa = PBXGroup; path = Camera; sourceTree = "<group>"; children = (B10000000000000000000006, B10000000000000000000007,); };
 		C1000000000000000000000A /* Components */ = {isa = PBXGroup; path = Components; sourceTree = "<group>"; children = (B10000000000000000000008, B10000000000000000000009,); };
 		C10000000000000000000008 /* Utilities */ = {isa = PBXGroup; path = Utilities; sourceTree = "<group>"; children = (B1000000000000000000000A,); };
 		C10000000000000000000003 /* Products */ = {isa = PBXGroup; name = Products; sourceTree = "<group>"; children = (B1000000000000000000000C,); };
+		C20000000000000000000001 /* Extensions */ = {isa = PBXGroup; path = Extensions; sourceTree = "<group>"; children = (B20000000000000000000001, B20000000000000000000002, B20000000000000000000003,); };
+		C20000000000000000000002 /* Stamps */ = {isa = PBXGroup; path = Stamps; sourceTree = "<group>"; children = (C20000000000000000000003, C20000000000000000000004, B20000000000000000000008,); };
+		C20000000000000000000003 /* Shapes */ = {isa = PBXGroup; path = Shapes; sourceTree = "<group>"; children = (B20000000000000000000005,); };
+		C20000000000000000000004 /* Postmarks */ = {isa = PBXGroup; path = Postmarks; sourceTree = "<group>"; children = (B20000000000000000000006, B20000000000000000000007,); };
+		C20000000000000000000005 /* Postcards */ = {isa = PBXGroup; path = Postcards; sourceTree = "<group>"; children = (B20000000000000000000009, B2000000000000000000000A, B2000000000000000000000B,); };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -104,7 +134,7 @@
 /* End PBXProject section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F10000000000000000000001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001, A10000000000000000000002, A10000000000000000000003, A10000000000000000000004, A10000000000000000000005, A10000000000000000000006, A10000000000000000000007, A10000000000000000000008, A10000000000000000000009, A1000000000000000000000A,); runOnlyForDeploymentPostprocessing = 0; };
+		F10000000000000000000001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001, A10000000000000000000002, A10000000000000000000003, A10000000000000000000004, A10000000000000000000005, A10000000000000000000006, A10000000000000000000007, A10000000000000000000008, A10000000000000000000009, A1000000000000000000000A, A20000000000000000000001, A20000000000000000000002, A20000000000000000000003, A20000000000000000000004, A20000000000000000000005, A20000000000000000000006, A20000000000000000000007, A20000000000000000000008, A20000000000000000000009, A2000000000000000000000A, A2000000000000000000000B,); runOnlyForDeploymentPostprocessing = 0; };
 		F10000000000000000000002 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 		F10000000000000000000003 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
