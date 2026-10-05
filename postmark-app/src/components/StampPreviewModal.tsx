@@ -1,5 +1,5 @@
 ﻿import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { saveStamp } from '../services/storageService';
@@ -7,6 +7,7 @@ import type { StampItem, StampLocation } from '../types/stamp';
 import { postalCoordinates } from '../utils/coordinateFormatter';
 import { formatPostalDate } from '../utils/dateFormatter';
 import { PostcardCard } from './postcards/PostcardCard';
+import { PostcardViewerScreen } from '../screens/PostcardViewerScreen';
 import { StampCard, STAMP_ASPECT } from './stamps/StampCard';
 import { VintagePostmark } from './stamps/VintagePostmark';
 
@@ -28,6 +29,10 @@ export function StampPreviewModal({ capture, onDiscard, onSaved }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<ViewMode>('stamp');
+  const [viewerOpen, setViewerOpen] = useState(false);
+  useEffect(() => {
+    if (!capture) setViewerOpen(false);
+  }, [capture]);
   const { width: screenWidth } = useWindowDimensions();
 
   const collect = async () => {
@@ -54,6 +59,9 @@ export function StampPreviewModal({ capture, onDiscard, onSaved }: Props) {
 
   return (
     <Modal visible={capture !== null} animationType="slide" presentationStyle="pageSheet" onRequestClose={onDiscard}>
+      {viewerOpen && capture ? (
+        <PostcardViewerScreen stamp={{ ...capture, isFavorite: false }} onClose={() => setViewerOpen(false)} />
+      ) : (
       <View style={styles.container}>
         {capture && loc && (
           <>
@@ -84,7 +92,10 @@ export function StampPreviewModal({ capture, onDiscard, onSaved }: Props) {
               ) : (
                 <>
                   <PostcardCard stamp={{ ...capture, isFavorite: false }} width={screenWidth * 0.9} />
-                  <Text style={styles.hint}>Toca la postal para voltearla</Text>
+                  <Pressable style={styles.viewerButton} onPress={() => setViewerOpen(true)}>
+                    <Ionicons name="expand-outline" size={16} color="#1F1F1F" />
+                    <Text style={styles.viewerText}>Abrir visor interactivo</Text>
+                  </Pressable>
                 </>
               )}
             </View>
@@ -106,6 +117,7 @@ export function StampPreviewModal({ capture, onDiscard, onSaved }: Props) {
           </>
         )}
       </View>
+      )}
     </Modal>
   );
 }
@@ -118,7 +130,8 @@ const styles = StyleSheet.create({
   toggleText: { color: '#1F1F1F', fontWeight: '600' },
   toggleTextActive: { color: '#FDFBF7' },
   stage: { minHeight: 300, alignItems: 'center', justifyContent: 'center' },
-  hint: { marginTop: 12, fontSize: 12, color: '#8A8174' },
+  viewerButton: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 14, padding: 8 },
+  viewerText: { color: '#1F1F1F', fontWeight: '600', fontSize: 13 },
   label: { marginTop: 20, alignItems: 'center', gap: 2 },  destination: { fontFamily: 'Georgia', fontSize: 20, fontWeight: '600', color: '#1F1F1F' },
   meta: { fontSize: 12, letterSpacing: 1.2, color: '#5A5A5A' },
   error: { color: '#8B1E2D', marginTop: 16, textAlign: 'center' },
@@ -132,6 +145,7 @@ const styles = StyleSheet.create({
   primary: { backgroundColor: '#1F1F1F' },
   primaryText: { color: '#FDFBF7', fontWeight: '600' },
 });
+
 
 
 

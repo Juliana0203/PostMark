@@ -1,13 +1,21 @@
 ﻿import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { StampCard } from '../stamps/StampCard';
+import { AnimatedInkStamp } from '../stamps/AnimatedInkStamp';
 import { VintagePostmark } from '../stamps/VintagePostmark';
 import { postalCoordinates } from '../../utils/coordinateFormatter';
 import { POSTCARD_ASPECT, type StampData } from './PostcardFront';
 
 const INK = '#3A3633';
 
-export function PostcardBack({ stamp, width }: { stamp: StampData; width: number }) {
+interface Props {
+  stamp: StampData;
+  width: number;
+  /** Si se define, el matasellos se estampa con animación cada vez que cambia (0 = oculto). */
+  inkPlayKey?: number;
+}
+
+export function PostcardBack({ stamp, width, inkPlayKey }: Props) {
   const [note, setNote] = useState('');
   const height = width / POSTCARD_ASPECT;
   const pad = width * 0.04;
@@ -48,14 +56,21 @@ export function PostcardBack({ stamp, width }: { stamp: StampData; width: number
         </View>
       </View>
       <View pointerEvents="none" style={{ position: 'absolute', right: pad + width * 0.06, top: pad + width * 0.12 }}>
-        <VintagePostmark
-          cityName={location.city}
-          countryName={location.country}
-          date={stamp.timestamp}
-          coordinatesText={postalCoordinates(location.latitude, location.longitude)}
-          size={postmarkSize}
-          seed={seed}
-        />
+        {(() => {
+          const props = {
+            cityName: location.city,
+            countryName: location.country,
+            date: stamp.timestamp,
+            coordinatesText: postalCoordinates(location.latitude, location.longitude),
+            size: postmarkSize,
+            seed,
+          };
+          return inkPlayKey === undefined ? (
+            <VintagePostmark {...props} />
+          ) : (
+            <AnimatedInkStamp {...props} playKey={inkPlayKey} />
+          );
+        })()}
       </View>
     </View>
   );
@@ -75,3 +90,4 @@ const styles = StyleSheet.create({
   line: { borderBottomWidth: 1, borderBottomColor: '#8A8174', borderStyle: 'dotted', justifyContent: 'flex-end' },
   coords: { color: '#6B6459', fontFamily: 'Courier', letterSpacing: 1 },
 });
+
